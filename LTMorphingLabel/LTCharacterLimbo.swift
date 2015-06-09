@@ -9,7 +9,7 @@
 import UIKit
 
 
-public struct LTCharacterLimbo: DebugPrintable {
+public struct LTCharacterLimbo: CustomDebugStringConvertible {
     
     public let char: Character
     public var rect: CGRect

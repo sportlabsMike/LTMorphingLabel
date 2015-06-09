@@ -61,7 +61,6 @@ extension LTMorphingLabel {
                 
                 let charImage = self.pixelateImageForCharLimbo(charLimbo, withBlurRadius: charLimbo.drawingProgress * 6.0)
                 
-                let charRect = charLimbo.rect
                 charImage.drawInRect(charLimbo.rect)
                 
                 return true

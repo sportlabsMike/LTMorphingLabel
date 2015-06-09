@@ -13,7 +13,7 @@
 A morphing UILabel subclass written in Swift.
 The ```.Scale``` effect is originally introduced by Apple in WWDC 2014. New morphing effects are available as Swift extensions.
 
-## enum LTMorphingEffect: Int, Printable
+## enum LTMorphingEffect: Int, CustomDebugStringConvertible
 
 #### .Scale - _default_
 <img src="https://cloud.githubusercontent.com/assets/219689/3491822/96bf5de6-059d-11e4-9826-a6f82025d1af.gif" width="300" height="70" alt="LTMorphingLabel"/>
@@ -39,7 +39,7 @@ The ```.Scale``` effect is originally introduced by Apple in WWDC 2014. New morp
 <img src="https://cloud.githubusercontent.com/assets/219689/3594949/815cd3e8-0caa-11e4-9738-278a9c959478.gif" width="300" height="70" alt="LTMorphingLabel-Anvil"/>
 
 ## Requirements
-1. Xcode 6.3
+1. Xcode 7
 2. iOS 8.0+
 
 ## Installation
