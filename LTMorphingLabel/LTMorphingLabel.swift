@@ -3,7 +3,7 @@
 //  https://github.com/lexrus/LTMorphingLabel
 //
 //  The MIT License (MIT)
-//  Copyright (c) 2015 Lex Tang, http://LexTang.com
+//  Copyright (c) 2015 Lex Tang, http://lexrus.com
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the “Software”), to deal
@@ -54,11 +54,11 @@ typealias LTMorphingSkipFramesClosure = (Void) -> Int
 // MARK: - LTMorphingLabel
 @IBDesignable public class LTMorphingLabel: UILabel {
     
-    public var morphingProgress: Float = 0.0
-    public var morphingDuration: Float = 0.6
-    public var morphingCharacterDelay: Float = 0.026
+    @IBInspectable public var morphingProgress: Float = 0.0
+    @IBInspectable public var morphingDuration: Float = 0.6
+    @IBInspectable public var morphingCharacterDelay: Float = 0.026
+    @IBOutlet public var delegate: LTMorphingLabelDelegate?
     public var morphingEffect: LTMorphingEffect = .Scale
-    public var delegate: LTMorphingLabelDelegate?
     
     var startClosures = [String: LTMorphingStartClosure]()
     var effectClosures = [String: LTMorphingEffectClosure]()
@@ -77,44 +77,44 @@ typealias LTMorphingSkipFramesClosure = (Void) -> Int
     var newRects = [CGRect]()
     var charHeight: CGFloat = 0.0
     var skipFramesCount: Int = 0
-
-#if TARGET_INTERFACE_BUILDER
+    
+    #if TARGET_INTERFACE_BUILDER
     let presentingInIB = true
-#else
+    #else
     let presentingInIB = false
-#endif
+    #endif
     
     override public var text:String! {
-    get {
-        return super.text
-    }
-    set {
-        previousText = text ?? ""
-        diffResults = previousText >> (newValue ?? "")
-        super.text = newValue ?? ""
-        
-        morphingProgress = 0.0
-        currentFrame = 0
-        totalFrames = 0
-        
-        self.setNeedsLayout()
- 
-        if presentingInIB {
-            morphingDuration = 0.01
-            morphingProgress = 0.5
-        } else if previousText != text {
-            displayLink.paused = false
-            if let closure = startClosures["\(morphingEffect.description)\(LTMorphingPhaseStart)"] {
-                return closure()
-            }
+        get {
+            return super.text
+        }
+        set {
+            previousText = text ?? ""
+            diffResults = previousText >> (newValue ?? "")
+            super.text = newValue ?? ""
             
-            if let didStart = delegate?.morphingDidStart {
-                didStart(self)
+            morphingProgress = 0.0
+            currentFrame = 0
+            totalFrames = 0
+            
+            self.setNeedsLayout()
+            
+            if presentingInIB {
+                morphingDuration = 0.01
+                morphingProgress = 0.5
+            } else if previousText != text {
+                displayLink.paused = false
+                if let closure = startClosures["\(morphingEffect.description)\(LTMorphingPhaseStart)"] {
+                    return closure()
+                }
+                
+                if let didStart = delegate?.morphingDidStart {
+                    didStart(self)
+                }
             }
         }
     }
-    }
-
+    
     public override func setNeedsLayout() {
         super.setNeedsLayout()
         previousRects = rectsOfEachCharacter(previousText, withFont: self.font)
@@ -122,23 +122,23 @@ typealias LTMorphingSkipFramesClosure = (Void) -> Int
     }
     
     override public var bounds:CGRect {
-    get {
-        return super.bounds
-    }
-    set {
-        super.bounds = newValue
-        self.setNeedsLayout()
-    }
+        get {
+            return super.bounds
+        }
+        set {
+            super.bounds = newValue
+            self.setNeedsLayout()
+        }
     }
     
     override public var frame:CGRect {
-    get {
-        return super.frame
-    }
-    set {
-        super.frame = newValue
-        self.setNeedsLayout()
-    }
+        get {
+            return super.frame
+        }
+        set {
+            super.frame = newValue
+            self.setNeedsLayout()
+        }
     }
     
     private lazy var displayLink: CADisplayLink = {
@@ -199,9 +199,9 @@ extension LTMorphingLabel {
     func rectsOfEachCharacter(textToDraw:String, withFont font:UIFont) -> [CGRect] {
         var charRects = [CGRect]()
         var leftOffset: CGFloat = 0.0
-
+        
         charHeight = "Leg".sizeWithAttributes([NSFontAttributeName: self.font]).height
-
+        
         let topOffset = (self.bounds.size.height - charHeight) / 2.0
         
         for (_, char) in textToDraw.characters.enumerate() {
@@ -245,7 +245,7 @@ extension LTMorphingLabel {
             var currentAlpha: CGFloat = 1.0
             
             switch diffResult.diffType {
-            // Move the character that exists in the new text to current position
+                // Move the character that exists in the new text to current position
             case .Move, .MoveAndAdd, .Same:
                 newX = Float(newRects[index + diffResult.moveOffset].origin.x)
                 currentRect.origin.x = CGFloat(LTEasing.easeOutQuint(progress, oriX, newX - oriX))
@@ -309,7 +309,7 @@ extension LTMorphingLabel {
             } else {
                 progress = min(1.0, max(0.0, morphingProgress + morphingCharacterDelay * Float(i)))
             }
-
+            
             let limboOfCharacter = limboOfOriginalCharacter(character, index: i, progress: progress)
             limbo.append(limboOfCharacter)
         }
@@ -373,7 +373,7 @@ extension LTMorphingLabel {
                     return closure($0)
                 }
                 return false
-            }(charLimbo)
+                }(charLimbo)
             
             if !willAvoidDefaultDrawing {
                 let s = String(charLimbo.char)

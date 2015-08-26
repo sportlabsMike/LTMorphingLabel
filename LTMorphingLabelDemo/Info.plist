@@ -26,6 +26,8 @@
 	<true/>
 	<key>NSMainNibFile~ipad</key>
 	<string>LTMorphingLabelDemo-iPad</string>
+	<key>UILaunchStoryboardName</key>
+	<string>Launch Screen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LTMorphingLabelDemo</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -36,8 +38,6 @@
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 </dict>
 </plist>
