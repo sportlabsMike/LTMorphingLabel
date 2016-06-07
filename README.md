@@ -1,17 +1,13 @@
 # LTMorphingLabel
 
-[![CircleCI](https://img.shields.io/circleci/project/lexrus/LTMorphingLabel.svg)](https://github.com/lexrus/LTMorphingLabel)
+[![Travis](https://img.shields.io/travis/lexrus/LTMorphingLabel.svg)](https://travis-ci.org/lexrus/LTMorphingLabel)
+![Language](https://img.shields.io/badge/language-Swift%202-orange.svg)
 [![CocoaPods](https://img.shields.io/cocoapods/v/LTMorphingLabel.svg?style=flat)](https://github.com/lexrus/LTMorphingLabel)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 ![License](https://img.shields.io/github/license/lexrus/LTMorphingLabel.svg?style=flat)
 
-[![Git](https://img.shields.io/badge/GitHub-lexrus-blue.svg?style=flat)](https://github.com/lexrus)
-[![Twitter](https://img.shields.io/badge/twitter-@lexrus-blue.svg?style=flat)](http://twitter.com/lexrus)
-[![LinkedIn](https://img.shields.io/badge/linkedin-Lex Tang-blue.svg?style=flat)](https://cn.linkedin.com/in/lexrus/en)
-[![eMail](https://img.shields.io/badge/email-lexrus@gmail.com-blue.svg?style=flat)](mailto:lexrus@gmail.com?SUBJECT=About LTMorphingLabel)
-
 A morphing UILabel subclass written in Swift.
-The ```.Scale``` effect is originally introduced by Apple in WWDC 2014. New morphing effects are available as Swift extensions.
+The ```.Scale``` effect mimicked [Apple's QuickType animation of iOS 8](https://youtu.be/w87fOAG8fjk?t=3451) in WWDC 2014. New morphing effects are available as Swift extensions.
 
 ## enum LTMorphingEffect: Int, Printable
 
@@ -40,7 +36,7 @@ The ```.Scale``` effect is originally introduced by Apple in WWDC 2014. New morp
 
 ## Requirements
 
-1. Xcode 6.4
+1. Xcode 7.3
 2. iOS 8.0+
 
 ## Installation
@@ -48,19 +44,18 @@ The ```.Scale``` effect is originally introduced by Apple in WWDC 2014. New morp
 ### [Carthage](https://github.com/Carthage/Carthage)
 
 1. Add this line to your Cartfile: `github "lexrus/LTMorphingLabel"`
-2. Run `carthage update` to fetch and build the `LTMorphingLabel.framework`
-3. Drag `LTMorphingLabel.framework` into your iOS 8 project
+2. Read the [official instruction](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application)
 
 ### [CocoaPods](http://cocoapods.org)
 
 1. Install the latest release of CocoaPods: `gem install cocoapods`
-2. Add this line to your Podfile: `pod 'LTMorphingLabel', '~> 0.0.7'`
+2. Add this line to your Podfile: `pod 'LTMorphingLabel'`
 3. Install the pod: `pod install`
 
 ## Usage
 
 1. Change the class of a label from UILabel to LTMorphingLabel;
-2. Programatically set a new String to its text property.
+2. Programmatically set a new String to its text property.
 
 ## Unit tests
 
@@ -68,7 +63,15 @@ Open the project with Xcode then press command + u.
 
 ## Alternative
 
-Even though this lib was used in a few products on App Store, it’s still an experimental project. Frankly, there’re some nice competitors out there guarantee both compatibility and stability. And the most outstanding one is [ZCAnimatedLabel](https://github.com/overboming/ZCAnimatedLabel). I’d like to recommend it for production use.
+Even though this lib was used in
+[a few products on App Store](https://github.com/lexrus/LTMorphingLabel/wiki/Apps-using-LTMorphingLabel),
+it’s still an experimental project. Frankly, there’re some nice competitors out
+there guarantee both compatibility and stability.
+And the most outstanding one is
+[ZCAnimatedLabel](https://github.com/overboming/ZCAnimatedLabel).
+I’d like to recommend it for production use.
+
+And finally, [an Android port](https://github.com/hanks-zyh/HTextView).
 
 ## License
 

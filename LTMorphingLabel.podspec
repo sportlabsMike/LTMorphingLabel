@@ -1,12 +1,13 @@
 Pod::Spec.new do |s|
 
   s.name         = "LTMorphingLabel"
-  s.version      = "0.0.7"
+  s.version      = "0.2.0"
   s.summary      = "Graceful morphing effects for UILabel written in Swift."
   s.description  = <<-DESC
                    A morphing UILabel subclass written in Swift.
-                   The .Scale effect is originally introduced by Apple in WWDC 2014.
-                   New morphing effects are available as Swift extensions.
+                   The .Scale effect mimicked Apple's QuickType animation of iOS
+                   8 in WWDC 2014. New morphing effects are available as
+                   Swift extensions.
                    DESC
   s.homepage     = "https://github.com/lexrus/LTMorphingLabel"
   s.screenshots  = "https://cloud.githubusercontent.com/assets/219689/3491822/96bf5de6-059d-11e4-9826-a6f82025d1af.gif",
@@ -18,8 +19,12 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Lex Tang" => "lexrus@gmail.com" }
   s.social_media_url   = "https://twitter.com/lexrus"
-  s.platform     = :ios, "8.0"
-  s.source       = { :git => "https://github.com/lexrus/LTMorphingLabel.git", :tag => s.version }
+  s.ios.deployment_target = "8.0"
+  s.tvos.deployment_target = "9.0"
+  s.source       = {
+                    :git => "https://github.com/lexrus/LTMorphingLabel.git",
+                    :tag => s.version
+                   }
   s.source_files = "LTMorphingLabel/*.{h,swift}"
   s.resources    = "LTMorphingLabel/Particles/*.png"
   s.frameworks   = "UIKit", "Foundation", "QuartzCore"

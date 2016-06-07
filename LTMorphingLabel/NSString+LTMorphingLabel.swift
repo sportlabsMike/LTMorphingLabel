@@ -3,31 +3,32 @@
 //  https://github.com/lexrus/LTMorphingLabel
 //
 //  The MIT License (MIT)
-//  Copyright (c) 2015 Lex Tang, http://LexTang.com
+//  Copyright (c) 2016 Lex Tang, http://lexrus.com
 //
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the “Software”), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
+//  Permission is hereby granted, free of charge, to any person obtaining a
+//  copy of this software and associated documentation files
+//  (the “Software”), to deal in the Software without restriction,
+//  including without limitation the rights to use, copy, modify, merge,
+//  publish, distribute, sublicense, and/or sell copies of the Software,
+//  and to permit persons to whom the Software is furnished to do so,
+//  subject to the following conditions:
 //
-//  The above copyright notice and this permission notice shall be included in
-//  all copies or substantial portions of the Software.
+//  The above copyright notice and this permission notice shall be included
+//  in all copies or substantial portions of the Software.
 //
-//  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
+//  THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+//  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+//  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+//  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+//  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+//  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 import Foundation
 
 
-public enum LTCharacterDiffType: Int, DebugPrintable {
+public enum LTCharacterDiffType: Int, CustomDebugStringConvertible {
     
     case Same = 0
     case Add = 1
@@ -37,7 +38,6 @@ public enum LTCharacterDiffType: Int, DebugPrintable {
     case Replace
     
     public var debugDescription: String {
-    get {
         switch self {
         case .Same:
             return "Same"
@@ -53,19 +53,17 @@ public enum LTCharacterDiffType: Int, DebugPrintable {
             return "Replace"
         }
     }
-    }
     
 }
 
 
-public struct LTCharacterDiffResult: DebugPrintable {
+public struct LTCharacterDiffResult: CustomDebugStringConvertible {
     
     public var diffType: LTCharacterDiffType = .Add
     public var moveOffset: Int = 0
     public var skip: Bool = false
     
     public var debugDescription: String {
-    get {
         switch diffType {
         case .Same:
             return "The character is unchanged."
@@ -81,21 +79,20 @@ public struct LTCharacterDiffResult: DebugPrintable {
             return "The character is REPLACED with a new character."
         }
     }
-    }
     
 }
 
 
-public func >>(lhs: String, rhs: String) -> [LTCharacterDiffResult] {
+public func >> (lhs: String, rhs: String) -> [LTCharacterDiffResult] {
     
-    let newChars = enumerate(rhs)
-    let lhsLength = count(lhs)
-    let rhsLength = count(rhs)
+    let newChars = rhs.characters.enumerate()
+    let lhsLength = lhs.characters.count
+    let rhsLength = rhs.characters.count
     var skipIndexes = [Int]()
-    let leftChars = Array(lhs)
+    let leftChars = Array(lhs.characters)
     
     let maxLength = max(lhsLength, rhsLength)
-    var diffResults: [LTCharacterDiffResult] = Array(count: maxLength, repeatedValue: LTCharacterDiffResult())
+    var diffResults = Array(count: maxLength, repeatedValue: LTCharacterDiffResult())
     
     for i in 0..<maxLength {
         // If new string is longer than the original one
@@ -108,41 +105,29 @@ public func >>(lhs: String, rhs: String) -> [LTCharacterDiffResult] {
         // Search left character in the new string
         var foundCharacterInRhs = false
         for (j, newChar) in newChars {
-            let currentCharWouldBeReplaced = {
-                (index: Int) -> Bool in
-                for k in skipIndexes {
-                    if index == k {
-                        return true
-                    }
-                }
-                return false
-                }(j)
-            
-            if currentCharWouldBeReplaced {
+            if skipIndexes.contains(j) || leftChar != newChar {
                 continue
             }
-            
-            if leftChar == newChar {
-                skipIndexes.append(j)
-                foundCharacterInRhs = true
-                if i == j {
-                    // Character not changed
-                    diffResults[i].diffType = .Same
-                } else {
-                    // foundCharacterInRhs and move
-                    diffResults[i].diffType = .Move
-                    if i <= rhsLength - 1 {
-                        // Move to a new index and add a new character to new original place
-                        diffResults[i].diffType = .MoveAndAdd
-                    }
-                    diffResults[i].moveOffset = j - i
+
+            skipIndexes.append(j)
+            foundCharacterInRhs = true
+            if i == j {
+                // Character not changed
+                diffResults[i].diffType = .Same
+            } else {
+                // foundCharacterInRhs and move
+                diffResults[i].diffType = .Move
+                if i <= rhsLength - 1 {
+                    // Move to a new index and add a new character to new original place
+                    diffResults[i].diffType = .MoveAndAdd
                 }
-                break
+                diffResults[i].moveOffset = j - i
             }
+            break
         }
-        
+
         if !foundCharacterInRhs {
-            if i < count(rhs) - 1 {
+            if i < rhs.characters.count - 1 {
                 diffResults[i].diffType = .Replace
             } else {
                 diffResults[i].diffType = .Delete
@@ -158,7 +143,7 @@ public func >>(lhs: String, rhs: String) -> [LTCharacterDiffResult] {
         default:
             ()
         }
-        i++
+        i += 1
     }
     
     return diffResults
