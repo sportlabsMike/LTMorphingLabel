@@ -30,24 +30,24 @@ import Foundation
 
 public enum LTCharacterDiffType: Int, CustomDebugStringConvertible {
     
-    case Same = 0
-    case Add = 1
-    case Delete
-    case Move
-    case MoveAndAdd
-    case Replace
+    case same = 0
+    case add = 1
+    case delete
+    case move
+    case moveAndAdd
+    case replace
     
     public var debugDescription: String {
         switch self {
-        case .Same:
+        case .same:
             return "Same"
-        case .Add:
+        case .add:
             return "Add"
-        case .Delete:
+        case .delete:
             return "Delete"
-        case .Move:
+        case .move:
             return "Move"
-        case .MoveAndAdd:
+        case .moveAndAdd:
             return "MoveAndAdd"
         default:
             return "Replace"
@@ -59,21 +59,21 @@ public enum LTCharacterDiffType: Int, CustomDebugStringConvertible {
 
 public struct LTCharacterDiffResult: CustomDebugStringConvertible {
     
-    public var diffType: LTCharacterDiffType = .Add
+    public var diffType: LTCharacterDiffType = .add
     public var moveOffset: Int = 0
     public var skip: Bool = false
     
     public var debugDescription: String {
         switch diffType {
-        case .Same:
+        case .same:
             return "The character is unchanged."
-        case .Add:
+        case .add:
             return "A new character is ADDED."
-        case .Delete:
+        case .delete:
             return "The character is DELETED."
-        case .Move:
+        case .move:
             return "The character is MOVED to \(moveOffset)."
-        case .MoveAndAdd:
+        case .moveAndAdd:
             return "The character is MOVED to \(moveOffset) and a new character is ADDED."
         default:
             return "The character is REPLACED with a new character."
@@ -85,14 +85,14 @@ public struct LTCharacterDiffResult: CustomDebugStringConvertible {
 
 public func >> (lhs: String, rhs: String) -> [LTCharacterDiffResult] {
     
-    let newChars = rhs.characters.enumerate()
+    let newChars = rhs.characters.enumerated()
     let lhsLength = lhs.characters.count
     let rhsLength = rhs.characters.count
     var skipIndexes = [Int]()
     let leftChars = Array(lhs.characters)
     
     let maxLength = max(lhsLength, rhsLength)
-    var diffResults = Array(count: maxLength, repeatedValue: LTCharacterDiffResult())
+    var diffResults = Array(repeating: LTCharacterDiffResult(), count: maxLength)
     
     for i in 0..<maxLength {
         // If new string is longer than the original one
@@ -113,13 +113,13 @@ public func >> (lhs: String, rhs: String) -> [LTCharacterDiffResult] {
             foundCharacterInRhs = true
             if i == j {
                 // Character not changed
-                diffResults[i].diffType = .Same
+                diffResults[i].diffType = .same
             } else {
                 // foundCharacterInRhs and move
-                diffResults[i].diffType = .Move
+                diffResults[i].diffType = .move
                 if i <= rhsLength - 1 {
                     // Move to a new index and add a new character to new original place
-                    diffResults[i].diffType = .MoveAndAdd
+                    diffResults[i].diffType = .moveAndAdd
                 }
                 diffResults[i].moveOffset = j - i
             }
@@ -128,9 +128,9 @@ public func >> (lhs: String, rhs: String) -> [LTCharacterDiffResult] {
 
         if !foundCharacterInRhs {
             if i < rhs.characters.count - 1 {
-                diffResults[i].diffType = .Replace
+                diffResults[i].diffType = .replace
             } else {
-                diffResults[i].diffType = .Delete
+                diffResults[i].diffType = .delete
             }
         }
     }
@@ -138,7 +138,7 @@ public func >> (lhs: String, rhs: String) -> [LTCharacterDiffResult] {
     var i = 0
     for result in diffResults {
         switch result.diffType {
-        case .Move, .MoveAndAdd:
+        case .move, .moveAndAdd:
             diffResults[i + result.moveOffset].skip = true
         default:
             ()
