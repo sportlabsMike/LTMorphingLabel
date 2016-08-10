@@ -42,7 +42,7 @@ extension LTMorphingLabel {
             UIGraphicsBeginImageContextWithOptions(
                 maskedSize,
                 false,
-                UIScreen.main().scale
+                UIScreen.main.scale
             )
             let rect = CGRect(
                 x: 0,

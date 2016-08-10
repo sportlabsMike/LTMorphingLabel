@@ -85,7 +85,7 @@ public struct LTEmitter {
         
         layer.emitterCells = [cell]
         let d = DispatchTime.now() + Double(Int64(duration * Float(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.after(when: d) {
+        DispatchQueue.main.asyncAfter(deadline: d) {
             self.layer.birthRate = 0.0
         }
     }

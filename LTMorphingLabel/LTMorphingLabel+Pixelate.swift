@@ -78,7 +78,7 @@ extension LTMorphingLabel {
         _ charLimbo: LTCharacterLimbo,
         withBlurRadius blurRadius: CGFloat
         ) -> UIImage {
-            let scale = min(UIScreen.main().scale, 1.0 / blurRadius)
+            let scale = min(UIScreen.main.scale, 1.0 / blurRadius)
             UIGraphicsBeginImageContextWithOptions(charLimbo.rect.size, false, scale)
             let fadeOutAlpha = min(1.0, max(0.0, charLimbo.drawingProgress * -2.0 + 2.0 + 0.01))
             let rect = CGRect(

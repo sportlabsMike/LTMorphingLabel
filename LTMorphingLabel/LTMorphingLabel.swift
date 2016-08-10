@@ -159,8 +159,8 @@ typealias LTMorphingSkipFramesClosure =
             target: self,
             selector: #selector(LTMorphingLabel.displayFrameTick))
         displayLink.add(
-            to: RunLoop.current(),
-            forMode: RunLoopMode.commonModes.rawValue)
+            to: RunLoop.current,
+            forMode: RunLoopMode.commonModes)
         return displayLink
         }()
     

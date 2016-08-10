@@ -119,7 +119,7 @@ extension LTMorphingLabel {
                     y: charRect.size.height * -1.0 + self.font.pointSize / 6,
                     width: charRect.size.width,
                     height: charRect.size.height)
-                context.translate(x: charCenterX, y: charBottomY)
+                context.translateBy(x: charCenterX, y: charBottomY)
                 
                 let angle = Float(sin(Double(limbo.rect.origin.x)) > 0.5 ? 168 : -168)
                 let rotation = CGFloat(
@@ -132,7 +132,7 @@ extension LTMorphingLabel {
                         1.0
                     ) * angle
                 )
-                context.rotate(byAngle: rotation * CGFloat(M_PI) / 180.0)
+                context.rotate(by: rotation * CGFloat(M_PI) / 180.0)
                 let s = String(limbo.char)
                 s.draw(in: charRect, withAttributes: [
                     NSFontAttributeName: self.font.withSize(limbo.size),
