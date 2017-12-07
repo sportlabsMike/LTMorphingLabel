@@ -29,7 +29,7 @@ import UIKit
 
 extension LTMorphingLabel {
     
-    func AnvilLoad() {
+    @objc func AnvilLoad() {
         
         startClosures["Anvil\(LTMorphingPhases.start)"] = {
             self.emitterView.removeAllEmitters()
@@ -163,7 +163,7 @@ extension LTMorphingLabel {
                     cell.alphaSpeed = -1
                     cell.lifetime = self.morphingDuration
             }
-        }
+        } as LTMorphingStartClosure
         
         progressClosures["Anvil\(LTMorphingPhases.progress)"] = {
             (index: Int, progress: Float, isNewChar: Bool) in
@@ -203,8 +203,8 @@ extension LTMorphingLabel {
                 self.emitterView.createEmitter(
                     "fragments",
                     particleName: "Fragment",
-                    duration: 0.6
-                    ) {_ in}.update { (layer, _) in
+                    duration: 0.6, configureClosure:nil
+                    ).update { (layer, _) in
                         if progress > end {
                             layer.birthRate = 0
                         }
@@ -212,8 +212,8 @@ extension LTMorphingLabel {
                 self.emitterView.createEmitter(
                     "leftFragments",
                     particleName: "Fragment",
-                    duration: 0.6
-                    ) {_ in}.update {  (layer, _) in
+                    duration: 0.6, configureClosure:nil
+                    ).update {  (layer, _) in
                         if progress > end {
                             layer.birthRate = 0
                         }
@@ -221,8 +221,8 @@ extension LTMorphingLabel {
                 self.emitterView.createEmitter(
                     "rightFragments",
                     particleName: "Fragment",
-                    duration: 0.6
-                    ) {_ in}.update { (layer, _) in
+                    duration: 0.6, configureClosure:nil
+                    ).update { (layer, _) in
                         if progress > end {
                             layer.birthRate = 0
                         }
@@ -234,8 +234,8 @@ extension LTMorphingLabel {
                 self.emitterView.createEmitter(
                     "leftSmoke",
                     particleName: "Smoke",
-                    duration: 0.6
-                    ) {_ in}.update { (layer, _) in
+                    duration: 0.6, configureClosure:nil
+                    ).update { (layer, _) in
                         if progress > end {
                             layer.birthRate = 0
                         }
@@ -243,8 +243,8 @@ extension LTMorphingLabel {
                 self.emitterView.createEmitter(
                     "rightSmoke",
                     particleName: "Smoke",
-                    duration: 0.6
-                    ) {_ in}.update { (layer, _) in
+                    duration: 0.6, configureClosure:nil
+                    ).update { (layer, _) in
                         if progress > end {
                             layer.birthRate = 0
                         }
